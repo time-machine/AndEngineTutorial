@@ -5,6 +5,7 @@
 * [AndEngine Tutorial 03 – Player Movement 01](http://perle-development.com/tutorials/andengine-tutorial-03-player-movement-01/)
 * [AndEngine Tutorial 04 – Player Movement 02](http://perle-development.com/tutorials/andengine-tutorial-04-player-movement-02/)
 * [AndEngine Tutorial 05 – Player Movement 03](http://perle-development.com/tutorials/andengine-tutorial-05-player-movement-03/)
+* [AndEngine Tutorial 06 – Platform – 01](http://perle-development.com/tutorials/andengine-tutorial-06-platform-01-2/)
 
 ## Credit
 
