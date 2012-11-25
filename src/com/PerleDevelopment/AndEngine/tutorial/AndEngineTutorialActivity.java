@@ -6,20 +6,23 @@ import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
-import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.andengine.opengl.texture.region.TextureRegion;
+import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
+import com.PerleDevelopment.AndEngine.tutorial.objects.Player;
+
 public class AndEngineTutorialActivity extends SimpleBaseGameActivity {
-  private static final int CAMERA_WIDTH = 480;
-  private static final int CAMERA_HEIGHT = 800;
+  public static final int CAMERA_WIDTH = 480;
+  public static final int CAMERA_HEIGHT = 800;
+
   private Camera mCamera;
   private Scene mMainScene;
+
   private BitmapTextureAtlas mBitmapTextureAtlas;
-  private TextureRegion mPlayerTextureRegion;
+  private TiledTextureRegion mPlayerTiledTextureRegion;
 
   @Override
   public EngineOptions onCreateEngineOptions() {
@@ -31,11 +34,14 @@ public class AndEngineTutorialActivity extends SimpleBaseGameActivity {
   @Override
   protected void onCreateResources() {
     // load all the textures this game needs
-    mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(),
-      32, 32);
-    mPlayerTextureRegion = BitmapTextureAtlasTextureRegionFactory
-      .createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
-    mBitmapTextureAtlas.load();
+    this.mBitmapTextureAtlas = new BitmapTextureAtlas(
+      this.getTextureManager(), 32, 32);
+
+    this.mPlayerTiledTextureRegion = BitmapTextureAtlasTextureRegionFactory
+      .createTiledFromAsset(
+         this.mBitmapTextureAtlas, this, "face_box.png", 0, 0, 1, 1);
+
+    this.mBitmapTextureAtlas.load();
   }
 
   @Override
@@ -47,12 +53,15 @@ public class AndEngineTutorialActivity extends SimpleBaseGameActivity {
     this.mMainScene.setBackground(new Background(1, 1, 1));
 
     // center the player on the camera
-    final int iStartX = (CAMERA_WIDTH - mBitmapTextureAtlas.getWidth()) / 2 ;
-    final int iStartY = (CAMERA_HEIGHT - mBitmapTextureAtlas.getHeight()) / 2 ;
+    final float centerX = (
+      CAMERA_WIDTH - this.mPlayerTiledTextureRegion.getWidth()) / 2 ;
+    final float centerY = (
+      CAMERA_HEIGHT - this.mPlayerTiledTextureRegion.getHeight()) / 2 ;
 
     // create the sprite and add it to the scene
-    final Sprite oPlayer = new Sprite(iStartX, iStartY, mPlayerTextureRegion,
-      getVertexBufferObjectManager());
+    final Player oPlayer = new Player(
+      centerX, centerY, this.mPlayerTiledTextureRegion,
+      this.getVertexBufferObjectManager());
     this.mMainScene.attachChild(oPlayer);
 
     return this.mMainScene;
