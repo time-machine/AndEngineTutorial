@@ -1,5 +1,7 @@
 package com.PerleDevelopment.AndEngine.tutorial;
 
+import java.util.ArrayList;
+
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
@@ -13,6 +15,7 @@ import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import com.PerleDevelopment.AndEngine.tutorial.helper.AccelerometerHelper;
+import com.PerleDevelopment.AndEngine.tutorial.objects.Platform;
 import com.PerleDevelopment.AndEngine.tutorial.objects.Player;
 
 public class AndEngineTutorialActivity extends SimpleBaseGameActivity {
@@ -24,11 +27,13 @@ public class AndEngineTutorialActivity extends SimpleBaseGameActivity {
 
   private BitmapTextureAtlas mBitmapTextureAtlas;
   private TiledTextureRegion mPlayerTiledTextureRegion;
-  private AccelerometerHelper mAccelerometerHelper;
+  private final ArrayList<Platform> mPlatforms = new ArrayList<Platform>();
+  private BitmapTextureAtlas mPlatformBitmapTextureAtlas;
+  private TiledTextureRegion mPlatformTextureRegion;
 
   @Override
   public EngineOptions onCreateEngineOptions() {
-    mAccelerometerHelper = new AccelerometerHelper(this);
+    new AccelerometerHelper(this);
     this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
     return new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED,
       new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
@@ -39,12 +44,18 @@ public class AndEngineTutorialActivity extends SimpleBaseGameActivity {
     // load all the textures this game needs
     this.mBitmapTextureAtlas = new BitmapTextureAtlas(
       this.getTextureManager(), 32, 32);
-
     this.mPlayerTiledTextureRegion = BitmapTextureAtlasTextureRegionFactory
-      .createTiledFromAsset(
-         this.mBitmapTextureAtlas, this, "face_box.png", 0, 0, 1, 1);
-
+      .createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_box.png",
+        0, 0, 1, 1);
     this.mBitmapTextureAtlas.load();
+
+    // texture for platform
+    this.mPlatformBitmapTextureAtlas = new BitmapTextureAtlas(
+      this.getTextureManager(), 64, 64);
+    this.mPlatformTextureRegion = BitmapTextureAtlasTextureRegionFactory
+      .createTiledFromAsset(this.mPlatformBitmapTextureAtlas, this,
+        "platform.png", 0, 0, 1, 1);
+    this.mPlatformBitmapTextureAtlas.load();
   }
 
   @Override
@@ -65,7 +76,22 @@ public class AndEngineTutorialActivity extends SimpleBaseGameActivity {
     final Player player = new Player(
       centerX, centerY, this.mPlayerTiledTextureRegion,
       this.getVertexBufferObjectManager());
+
+    mPlatforms.add(new Platform(100, 500, this.mPlatformTextureRegion,
+      this.getVertexBufferObjectManager()));
+    mPlatforms.add(new Platform(200, 600, this.mPlatformTextureRegion,
+      this.getVertexBufferObjectManager()));
+    mPlatforms.add(new Platform(300, 700, this.mPlatformTextureRegion,
+      this.getVertexBufferObjectManager()));
+
+    // add platforms, so we can work with them (Player.java)
+    player.setmPlatforms(mPlatforms);
+
     this.mMainScene.attachChild(player);
+
+    for (Platform platform: mPlatforms) {
+      this.mMainScene.attachChild(platform);
+    }
 
     return this.mMainScene;
   }

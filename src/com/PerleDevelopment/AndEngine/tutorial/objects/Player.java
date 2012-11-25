@@ -1,20 +1,35 @@
 package com.PerleDevelopment.AndEngine.tutorial.objects;
 
+import java.util.ArrayList;
+
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+
+import android.util.Log;
 
 import com.PerleDevelopment.AndEngine.tutorial.AndEngineTutorialActivity;
 import com.PerleDevelopment.AndEngine.tutorial.helper.AccelerometerHelper;
 
 public class Player extends GameObject {
   final int DEFAULT_VELOCITY = 200;
+
   boolean jumping = false;
+
+  private ArrayList<Platform> mPlatforms;
 
   public Player(
     final float pX, final float pY,
     final ITiledTextureRegion pTiledTextureRegion,
     final VertexBufferObjectManager pVertexBufferObjectManager) {
     super(pX, pY, pTiledTextureRegion, pVertexBufferObjectManager);
+  }
+
+  public ArrayList<Platform> getmPlatforms() {
+    return mPlatforms;
+  }
+
+  public void setmPlatforms(ArrayList<Platform> mPlatforms) {
+    this.mPlatforms = mPlatforms;
   }
 
   @Override
@@ -25,6 +40,12 @@ public class Player extends GameObject {
     OutOfScreenX();
 
     Jumping();
+
+    for (Platform platform : getmPlatforms()) {
+      if (this.collidesWith(platform)) {
+        Log.v("objects.Player", "just collied with platform <img src=\"http://perle-development.com/wp-includes/images/smilies/icon_wink.gif\" alt=\";)\" class=\"wp-smiley\"> ");
+      }
+    }
   }
 
   private void Jumping() {
