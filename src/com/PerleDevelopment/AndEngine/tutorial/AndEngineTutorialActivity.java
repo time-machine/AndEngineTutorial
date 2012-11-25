@@ -12,6 +12,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegion
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
+import com.PerleDevelopment.AndEngine.tutorial.helper.AccelerometerHelper;
 import com.PerleDevelopment.AndEngine.tutorial.objects.Player;
 
 public class AndEngineTutorialActivity extends SimpleBaseGameActivity {
@@ -23,9 +24,11 @@ public class AndEngineTutorialActivity extends SimpleBaseGameActivity {
 
   private BitmapTextureAtlas mBitmapTextureAtlas;
   private TiledTextureRegion mPlayerTiledTextureRegion;
+  private AccelerometerHelper mAccelerometerHelper;
 
   @Override
   public EngineOptions onCreateEngineOptions() {
+    mAccelerometerHelper = new AccelerometerHelper(this);
     this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
     return new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED,
       new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
@@ -59,10 +62,10 @@ public class AndEngineTutorialActivity extends SimpleBaseGameActivity {
       CAMERA_HEIGHT - this.mPlayerTiledTextureRegion.getHeight()) / 2 ;
 
     // create the sprite and add it to the scene
-    final Player oPlayer = new Player(
+    final Player player = new Player(
       centerX, centerY, this.mPlayerTiledTextureRegion,
       this.getVertexBufferObjectManager());
-    this.mMainScene.attachChild(oPlayer);
+    this.mMainScene.attachChild(player);
 
     return this.mMainScene;
   }

@@ -4,6 +4,7 @@ import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import com.PerleDevelopment.AndEngine.tutorial.AndEngineTutorialActivity;
+import com.PerleDevelopment.AndEngine.tutorial.helper.AccelerometerHelper;
 
 public class Player extends GameObject {
   public Player(final float pX, final float pY,
@@ -14,7 +15,8 @@ public class Player extends GameObject {
 
   @Override
   public void move() {
-    this.mPhysicsHandler.setVelocityX(100);
+    this.mPhysicsHandler.setVelocityX(-AccelerometerHelper.TILT * 100);
+    this.setRotation(-AccelerometerHelper.TILT * 7);
     OutOfScreenX();
   }
 
