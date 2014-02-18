@@ -10,3 +10,6 @@
 ## Credit
 
 * [Perle Development AndEngine and Android Tutorials](http://perle-development.com/)
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/time-machine/andenginetutorial/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
